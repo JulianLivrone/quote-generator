@@ -86,6 +86,10 @@ button:active {
   margin-top: 0;
 }
 
+#quotesFiltered-button {
+  margin-top: 5%;
+}
+
 /* Loader */
 .loader {
   border: 16px solid #f3f3f3;
@@ -103,6 +107,40 @@ button:active {
   100% {
     transform: rotate(360deg);
   }
+}
+
+/* Quotes filtered */
+.quotesFiltered-container {
+  width: auto;
+  max-width: 900px;
+  padding: 20px 30px;
+  border-radius: 10px;
+  background-color: rgba(255, 255, 255, 0.7);
+  box-shadow: 0 10px 10px 10px rgba(0, 0, 0, 0.2);
+  display: none;
+  margin: 1%;
+}
+
+.quotesFiltered-list {
+  list-style: none;
+  padding: 0;
+}
+
+.quotesFiltered-item {
+  margin: 2.5% 0;
+}
+
+.quoteFiltered-text {
+  font-size: 24px;
+}
+
+.quoteFiltered-author {
+  font-size: 20px;
+  display: block;
+}
+
+.quoteFiltered-category {
+  font-size: 18px;
 }
 
 /* Media Query: Tablet or smaller */

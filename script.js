@@ -1,11 +1,18 @@
 const quoteContainer = document.getElementById("quote-container");
+const searchBar = document.getElementById("searchBar");
 const quoteText = document.getElementById("quote");
 const authorText = document.getElementById("author");
 const categoryText = document.getElementById("category");
 const twitterBtn = document.getElementById("twitter");
 const newQuoteBtn = document.getElementById("new-quote");
 const loader = document.getElementById("loader");
+const quotesFilteredBtn = document.getElementById("quotesFiltered-button");
 const selectCategory = document.getElementById("selectCategory");
+const quotesFilteredContainer = document.getElementById(
+  "quotesFiltered-container"
+);
+const quotesFilteredList = document.getElementById("quotesFiltered-list");
+const randomQuoteBtn = document.getElementById("randomQuote-button");
 
 let apiQuotes = [];
 let apiCategory = "no category";
@@ -94,12 +101,54 @@ function tweetQuote() {
   window.open(twitterUrl, "_blank");
 }
 
+// Create <li> for every quote filtered by author and add it to quotes filtered list <ul>
+function generateItemsForQuotesFilteredByAuthorList(quotesFilteredByAuthor) {
+  quotesFilteredList.textContent = "";
+  quotesFilteredByAuthor.forEach((quote) => {
+    // Create quote text element
+    const quoteText = document.createElement("span");
+    quoteText.textContent = quote.text;
+    quoteText.classList.add("quoteFiltered-text");
+    // Create quote author element
+    const quoteAuthor = document.createElement("span");
+    quoteAuthor.textContent = quote.author;
+    quoteAuthor.classList.add("quoteFiltered-author");
+    // Create quote category element
+    const quoteCategory = document.createElement("span");
+    quoteCategory.textContent = quote.tag;
+    quoteCategory.classList.add("quoteFiltered-category");
+    // Create list item element with three previous elements as children
+    const listItem = document.createElement("li");
+    listItem.append(quoteText, quoteAuthor, quoteCategory);
+    listItem.classList.add("quotesFiltered-item");
+    // Add list item element inside quotes filtered list
+    quotesFilteredList.appendChild(listItem);
+  });
+}
+
 // Event listeners
 newQuoteBtn.addEventListener("click", newQuote);
 twitterBtn.addEventListener("click", tweetQuote);
 selectCategory.addEventListener("change", (e) => {
   apiCategory = e.target.value;
 });
-
+searchBar.addEventListener("input", (e) => {
+  const quotesFilteredByAuthor = apiQuotes.filter((apiQuote) => {
+    if (e.target.value === "" || e.target.value === " ") {
+      return false;
+    } else {
+      return apiQuote.author.includes(e.target.value) === true;
+    }
+  });
+  generateItemsForQuotesFilteredByAuthorList(quotesFilteredByAuthor);
+});
+randomQuoteBtn.addEventListener("click", () => {
+  quotesFilteredContainer.style.display = "none";
+  quoteContainer.style.display = "block";
+});
+quotesFilteredBtn.addEventListener("click", () => {
+  quoteContainer.style.display = "none";
+  quotesFilteredContainer.style.display = "block";
+});
 // On load
 getQuotes();
