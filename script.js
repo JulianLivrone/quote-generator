@@ -13,9 +13,11 @@ const quotesFilteredContainer = document.getElementById(
 );
 const quotesFilteredList = document.getElementById("quotesFiltered-list");
 const randomQuoteBtn = document.getElementById("randomQuote-button");
+const searchButton = document.getElementById("searchButton");
 
 let apiQuotes = [];
 let apiCategory = "no category";
+let searchValue = "";
 
 function showLoadingSpinner() {
   loader.hidden = false;
@@ -126,6 +128,20 @@ function generateItemsForQuotesFilteredByAuthorList(quotesFilteredByAuthor) {
   });
 }
 
+function searchByAuthor() {
+  const quotesFilteredByAuthor = apiQuotes.filter((apiQuote) => {
+    if (searchValue === "" || searchValue === " ") {
+      return false;
+    } else {
+      return (
+        apiQuote.author.toLowerCase().includes(searchValue.toLowerCase()) ===
+        true
+      );
+    }
+  });
+  generateItemsForQuotesFilteredByAuthorList(quotesFilteredByAuthor);
+}
+
 // Event listeners
 newQuoteBtn.addEventListener("click", newQuote);
 twitterBtn.addEventListener("click", tweetQuote);
@@ -133,15 +149,14 @@ selectCategory.addEventListener("change", (e) => {
   apiCategory = e.target.value;
 });
 searchBar.addEventListener("input", (e) => {
-  const quotesFilteredByAuthor = apiQuotes.filter((apiQuote) => {
-    if (e.target.value === "" || e.target.value === " ") {
-      return false;
-    } else {
-      return apiQuote.author.includes(e.target.value) === true;
-    }
-  });
-  generateItemsForQuotesFilteredByAuthorList(quotesFilteredByAuthor);
+  searchValue = e.target.value;
 });
+searchBar.addEventListener("keypress", (e) => {
+  if (e.key === "Enter") {
+    searchByAuthor();
+  }
+});
+searchButton.addEventListener("click", searchByAuthor);
 randomQuoteBtn.addEventListener("click", () => {
   quotesFilteredContainer.style.display = "none";
   quoteContainer.style.display = "block";
