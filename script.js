@@ -24,13 +24,13 @@ function removeLoadingSpinner() {
 function newQuote() {
   showLoadingSpinner();
   // Filter quote by category selected
-  let copia = apiQuotes;
+  let apiQuotesFiltered = apiQuotes;
   if (!(apiCategory === "no category")) {
-    copia = apiQuotes.filter((quote) => quote.tag === apiCategory);
+    apiQuotesFiltered = apiQuotes.filter((quote) => quote.tag === apiCategory);
   }
-  console.log(copia);
   // Pick a random quote from apiQuotes array
-  const quote = copia[Math.floor(Math.random() * copia.length)];
+  const quote =
+    apiQuotesFiltered[Math.floor(Math.random() * apiQuotesFiltered.length)];
   // Check if author field is blank and replace it with 'Unknown'
   if (!quote.author) {
     authorText.textContent = "Unknown";
@@ -43,26 +43,28 @@ function newQuote() {
   } else {
     quoteText.classList.remove("long-quote");
   }
-  // Set quote and hide loader
-  quoteText.textContent = quote.text;
   // Set quote category
   categoryText.textContent = quote.tag;
+  // Set quote and hide loader
+  quoteText.textContent = quote.text;
   removeLoadingSpinner();
+}
+
+// Create option tag for category
+function createOption(category) {
+  const option = document.createElement("option");
+  option.value = category;
+  option.textContent = category;
+  selectCategory.appendChild(option);
 }
 
 // Create categories for selecting quotes
 function createSelectCategoryOptions(categories) {
-  //Add the no category option to select
-  const option = document.createElement("option");
-  option.value = "no category";
-  option.textContent = "no category";
-  selectCategory.appendChild(option);
-  // Add categories for select dynamically
-  categories.forEach((categorie) => {
-    const option = document.createElement("option");
-    option.value = categorie;
-    option.textContent = categorie;
-    selectCategory.appendChild(option);
+  //Add the "no category" option to select
+  createOption("no category");
+  // Add categories option for select dynamically
+  categories.forEach((category) => {
+    createOption(category);
   });
 }
 

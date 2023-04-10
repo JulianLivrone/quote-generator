@@ -8,6 +8,7 @@ This is a web application that generates random quotes from a JSON API and displ
 - Clicking "New Quote" button generates a new quote
 - Clicking "Tweet Quote" button shares the quote on Twitter
 - Shows a loading spinner while quotes are being retrieved
+- Select quote category to get only quotes of that category
 
 ## Technologies Used
 
