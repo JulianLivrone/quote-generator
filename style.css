@@ -82,6 +82,10 @@ button:active {
   font-size: 1.5rem;
 }
 
+.selectCategory-text {
+  margin-top: 0;
+}
+
 /* Loader */
 .loader {
   border: 16px solid #f3f3f3;
