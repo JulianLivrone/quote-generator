@@ -158,6 +158,9 @@ searchBar.addEventListener("keypress", (e) => {
 });
 searchButton.addEventListener("click", searchByAuthor);
 randomQuoteBtn.addEventListener("click", () => {
+  searchValue = "";
+  searchByAuthor();
+  searchBar.value = "";
   quotesFilteredContainer.style.display = "none";
   quoteContainer.style.display = "block";
 });
