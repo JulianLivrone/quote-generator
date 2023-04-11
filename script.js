@@ -15,6 +15,9 @@ const quotesFilteredList = document.getElementById("quotesFiltered-list");
 const randomQuoteBtn = document.getElementById("randomQuote-button");
 const searchButton = document.getElementById("searchButton");
 
+const progressBar = document.getElementById("progress-bar");
+let timer;
+
 let apiQuotes = [];
 let apiCategory = "no category";
 let searchValue = "";
@@ -32,6 +35,12 @@ function removeLoadingSpinner() {
 // Show new quote
 function newQuote() {
   showLoadingSpinner();
+  // Reset the timer if it is running
+  if (timer) {
+    clearInterval(timer);
+  }
+  // Reset the progress bar
+  progressBar.style.width = "100%";
   // Filter quote by category selected
   let apiQuotesFiltered = apiQuotes;
   if (!(apiCategory === "no category")) {
@@ -57,6 +66,18 @@ function newQuote() {
   // Set quote and hide loader
   quoteText.textContent = quote.text;
   removeLoadingSpinner();
+  // Start the timer and set progress bar
+  let timeLeft = 100;
+  progressBar.style.width = "0%";
+  timer = setInterval(() => {
+    timeLeft--;
+    const progress = 100 - (timeLeft / 100) * 100;
+    progressBar.style.width = `${progress}%`;
+    if (timeLeft === 0) {
+      clearInterval(timer);
+      newQuote();
+    }
+  }, 100);
 }
 
 // Create option tag for category
@@ -93,7 +114,7 @@ async function getQuotes() {
     createSelectCategoryOptions(categories);
     newQuote();
   } catch (error) {
-    alert("There was a problem with the API");
+    console.log(error);
   }
 }
 
